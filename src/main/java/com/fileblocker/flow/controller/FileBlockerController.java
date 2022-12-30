@@ -18,18 +18,32 @@ public class FileBlockerController {
     @GetMapping("/")
     public String main(Model model){
 
-        model.addAttribute("list", extensionService.getCustomExtension());
+        model.addAttribute("fixed_list", extensionService.getFixedExtension());
+        model.addAttribute("custom_list", extensionService.getCustomExtension());
         model.addAttribute("count", extensionService.getCustomExtension().size());
 
         return "fileblocker";
     }
 
     @PostMapping("/add-extn")
-    public ResponseEntity<String> insertExtension(@RequestBody ExtensionDto dto) {
+    public ResponseEntity<String> insertCustomExtension(@RequestBody ExtensionDto dto) {
 //        System.out.println("add-extn :" + dto.getName());
 
         extensionService.insetExtension(dto);
 
         return ResponseEntity.ok().body("");
     }
+
+    @DeleteMapping("/non-block/custom")
+    public ResponseEntity<String> deleteCustomExtension(@RequestParam ExtensionDto dto){
+        extensionService.deleteCustomExtension(dto);
+        return ResponseEntity.ok().body("");
+    }
+
+    @PutMapping("/non-block/fixed")
+    public ResponseEntity<String> updateFixedExtension(@RequestBody ExtensionDto dto){
+        extensionService.updateFixedExtension(dto);
+        return ResponseEntity.ok().body("");
+    }
+
 }

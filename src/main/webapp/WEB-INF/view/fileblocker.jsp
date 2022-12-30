@@ -43,6 +43,7 @@
         .custom-bnt:active{
             background-color: cadetblue;
         }
+
     </style>
 </head>
 <c:set var="root" value="<%=request.getContextPath()%>"/>
@@ -57,13 +58,23 @@
             </li>
             <li>
                 <span>
-                    bat <input type="checkbox">&nbsp;
-                    cmd <input type="checkbox">&nbsp;
-                    com <input type="checkbox">&nbsp;
-                    cpl <input type="checkbox">&nbsp;
-                    exe <input type="checkbox">&nbsp;
-                    scr <input type="checkbox">&nbsp;
-                    js <input type="checkbox">&nbsp;
+                    <c:forEach var="fixedExtn" items="${fixed_list}">
+                        <c:choose>
+                            <c:when test="${fixedExtn.status == 1}">
+                                ${fixedExtn.name} <input type="checkbox" value="${fixedExtn.name}" checked>
+                            </c:when>
+                            <c:otherwise>
+                                ${fixedExtn.name} <input type="checkbox" value="${fixedExtn.name}">
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+<%--                    bat <input type="checkbox">&nbsp;--%>
+<%--                    cmd <input type="checkbox">&nbsp;--%>
+<%--                    com <input type="checkbox">&nbsp;--%>
+<%--                    cpl <input type="checkbox">&nbsp;--%>
+<%--                    exe <input type="checkbox">&nbsp;--%>
+<%--                    scr <input type="checkbox">&nbsp;--%>
+<%--                    js <input type="checkbox">&nbsp;--%>
                 </span>
                 <div class="bot">
                     <div>
@@ -76,9 +87,9 @@
                     <div class="custom-box">
                         <p style="font-size: 10px">${count}/200</p>
                         <div class="custom-btn-box">
-                            <c:forEach var="extn" items="${list}">
+                            <c:forEach var="customExtn" items="${custom_list}">
                                 <button type="button" class="custom-bnt">
-                                    ${extn.name} <a onclick="">x</a>
+                                    ${customExtn.name} <a onclick="">x</a>
                                 </button>
                             </c:forEach>
                         </div>
@@ -105,8 +116,10 @@
             data: {'name': extn.value}
         }).then(res=>{
             console.log(res);
-            // location.reload();
+            location.reload();
         })
     }
+
+
 </script>
 </html>

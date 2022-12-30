@@ -2,12 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fileblocker.flow.repository.ExtensionRepository">
-
     <select id="selectCustomExtension" resultType="ExtensionDto">
-        SELECT * FROM extension WHERE status=1;
+        SELECT * FROM extension WHERE type='custom' and status=1;
     </select>
-    <insert id="insertExtension" parameterType="ExtensionDto">
-        INSERT INTO extension VALUES (#{name});
+    <select id="selectFixedExtension" resultType="ExtensionDto">
+        SELECT * FROM extension WHERE type='fixed';
+    </select>
+    <insert id="insertCustomExtension" parameterType="ExtensionDto">
+        INSERT INTO extension VALUES (#{name},'custom',1);
     </insert>
-
+    <delete id="deleteCustomExtension" parameterType="ExtensionDto">
+        DELETE FROM extension WHERE name=#{name};
+    </delete>
+    <update id="updateFixedExtension" parameterType="ExtensionDto">
+        UPDATE extension SET status=#{status} WHERE name=#{name};
+    </update>
 </mapper>

@@ -9,5 +9,8 @@ import java.util.List;
 public interface ExtensionRepository {
 
     public List<ExtensionDto> selectCustomExtension();
-    public void insertExtension(ExtensionDto dto);
+    public List<ExtensionDto> selectFixedExtension();
+    public void insertCustomExtension(ExtensionDto dto);
+    public void deleteCustomExtension(ExtensionDto dto);
+    public void updateFixedExtension(ExtensionDto dto);
 }

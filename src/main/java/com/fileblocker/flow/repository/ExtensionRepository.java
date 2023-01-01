@@ -10,7 +10,7 @@ public interface ExtensionRepository {
 
     public List<ExtensionDto> selectCustomExtension();
     public List<ExtensionDto> selectFixedExtension();
-    public void insertCustomExtension(ExtensionDto dto);
-    public void deleteCustomExtension(ExtensionDto dto);
+    public void insertCustomExtension(ExtensionDto extensionDto);
+    public void deleteCustomExtension(String name);
     public void updateFixedExtension(ExtensionDto dto);
 }

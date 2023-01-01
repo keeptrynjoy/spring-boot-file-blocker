@@ -2,7 +2,6 @@ package com.fileblocker.flow.service;
 
 import com.fileblocker.flow.dto.ExtensionDto;
 import com.fileblocker.flow.repository.ExtensionRepository;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,32 +24,32 @@ public class ExtensionServiceImpl implements ExtensionService {
     }
 
     @Override
-    public void insetExtension(ExtensionDto dto){
-        extensionRepository.insertCustomExtension(dto);
+    public void insertCustomExtension(ExtensionDto extensionDto){
+
+            extensionRepository.insertCustomExtension(extensionDto);
     }
 
     @Override
-    public void deleteCustomExtension(ExtensionDto dto) {
-
-
-        extensionRepository.deleteCustomExtension(dto);
+    public void deleteCustomExtension(String name) {
+        extensionRepository.deleteCustomExtension(name);
     }
 
+    /* 고정확장자 block/unblock 조건 비즈니스 로직 */
     @Override
-    public void updateFixedExtension(ExtensionDto dto) {
+    public void updateFixedExtension(String name, String status) {
 
         ExtensionDto transDto;
 
-        if(dto.getStatus()==1){
+        if(status.equals("unblock")){
             transDto = ExtensionDto.builder()
-                    .name(dto.getName())
-                    .type(dto.getType())
+                    .name(name)
+                    .type("fixed")
                     .status(0)
                     .build();
         } else {
             transDto = ExtensionDto.builder()
-                    .name(dto.getName())
-                    .type(dto.getType())
+                    .name(name)
+                    .type("fixed")
                     .status(1)
                     .build();
         }

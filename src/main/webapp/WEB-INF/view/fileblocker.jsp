@@ -40,8 +40,12 @@
             background-color: aliceblue;
         }
 
-        .custom-bnt:active{
+        .custom-bnt:hover {
             background-color: cadetblue;
+        }
+
+        .custom-bnt>a:hover {
+            cursor: pointer;
         }
 
     </style>
@@ -61,27 +65,22 @@
                     <c:forEach var="fixedExtn" items="${fixed_list}">
                         <c:choose>
                             <c:when test="${fixedExtn.status == 1}">
-                                ${fixedExtn.name} <input type="checkbox" value="${fixedExtn.name}" checked>
+                                ${fixedExtn.name} <input type="checkbox" id="${fixedExtn.name}"
+                                                         onchange="fixedCheck('${fixedExtn.name}')" checked>&nbsp;
                             </c:when>
                             <c:otherwise>
-                                ${fixedExtn.name} <input type="checkbox" value="${fixedExtn.name}">
+                                ${fixedExtn.name} <input type="checkbox" id="${fixedExtn.name}"
+                                                         onchange="fixedCheck('${fixedExtn.name}')">&nbsp;
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
-<%--                    bat <input type="checkbox">&nbsp;--%>
-<%--                    cmd <input type="checkbox">&nbsp;--%>
-<%--                    com <input type="checkbox">&nbsp;--%>
-<%--                    cpl <input type="checkbox">&nbsp;--%>
-<%--                    exe <input type="checkbox">&nbsp;--%>
-<%--                    scr <input type="checkbox">&nbsp;--%>
-<%--                    js <input type="checkbox">&nbsp;--%>
                 </span>
                 <div class="bot">
                     <div>
                         <input type="text" oninput="handleOnInput(this, 20)" placeholder="확장자 입력"
                             id="inputExtn">
                         &nbsp;
-                        <button type="button" onclick="addCustomBtn()">+추가</button>
+                        <button type="button" onclick="blkCustom()">+추가</button>
                     </div>
                     <br>
                     <div class="custom-box">
@@ -89,7 +88,7 @@
                         <div class="custom-btn-box">
                             <c:forEach var="customExtn" items="${custom_list}">
                                 <button type="button" class="custom-bnt">
-                                    ${customExtn.name} <a onclick="">x</a>
+                                    ${customExtn.name} <a onclick="unBlkCustom('${customExtn.name}')">x</a>
                                 </button>
                             </c:forEach>
                         </div>
@@ -101,25 +100,59 @@
 </body>
 <script>
 
-    function handleOnInput(el, maxlength) {
-        if(el.value.length > maxlength)  {
-            el.value
-                = el.value.substr(0, maxlength);
+    /* 고졍형 확장자 체크박스 클릭시 차단/차단해제 요청 함수 */
+    function fixedCheck(name){
+        const checkExtn = document.getElementById(name);
+
+        if(checkExtn.checked === true){
+            axios({
+                method: 'put',
+                url:'block/fixed/'+ name,
+            }).then(res=>{
+                location.reload();
+            })
+        } else {
+            axios({
+                method: 'put',
+                url:'unblock/fixed/'+name,
+            }).then(res=>{
+                location.reload();
+            })
         }
     }
 
-    function addCustomBtn(){
+    /* input text 개수 제한 함수 */
+    function handleOnInput(el, maxlength) {
+        if(el.value.length > maxlength)  {
+            el.value = el.value.substr(0, maxlength);
+        }
+    }
+
+    /* 커스텀 확장자 차단 비동기 요청 함수 */
+    function blkCustom(){
         const extn = document.getElementById('inputExtn');
         axios({
             method:'post',
-            url:'add-extn',
+            url:'block/custom',
             data: {'name': extn.value}
         }).then(res=>{
-            console.log(res);
+            alert(res.data);
             location.reload();
+        }).catch(ex=>{
+            alert(ex.response.data);
+            extn.value = null;
         })
     }
 
+    /* 커스텀 확장자 차단해제 비동기 요청 함수 */
+    function unBlkCustom(name) {
+        axios({
+            method:'delete',
+            url:'unblock/custom/'+ name,
+        }).then(res=>{
+            location.reload();
+        })
+    }
 
 </script>
 </html>

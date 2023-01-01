@@ -9,9 +9,9 @@
         SELECT * FROM extension WHERE type='fixed';
     </select>
     <insert id="insertCustomExtension" parameterType="ExtensionDto">
-        INSERT INTO extension VALUES (#{name},'custom',1);
+        INSERT INTO extension VALUES (null,#{name},'custom',1);
     </insert>
-    <delete id="deleteCustomExtension" parameterType="ExtensionDto">
+    <delete id="deleteCustomExtension" parameterType="String">
         DELETE FROM extension WHERE name=#{name};
     </delete>
     <update id="updateFixedExtension" parameterType="ExtensionDto">

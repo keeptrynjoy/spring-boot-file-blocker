@@ -24,9 +24,19 @@ public class ExtensionServiceImpl implements ExtensionService {
     }
 
     @Override
+    public int selectExtensionCount() {
+        return extensionRepository.selectExtensionCount();
+    }
+
+    @Override
     public void insertCustomExtension(ExtensionDto extensionDto){
 
-            extensionRepository.insertCustomExtension(extensionDto);
+        //소문자 변환 로직
+        extensionDto = ExtensionDto.builder()
+                        .name(extensionDto.getName().toLowerCase())
+                        .build();
+
+        extensionRepository.insertCustomExtension(extensionDto);
     }
 
     @Override

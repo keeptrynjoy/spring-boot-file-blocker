@@ -7,6 +7,7 @@ import java.util.List;
 public interface ExtensionService {
     public List<ExtensionDto> getCustomExtension();
     public List<ExtensionDto> getFixedExtension();
+    public int selectExtensionCount();
     public void insertCustomExtension(ExtensionDto extensionDto);
     public void deleteCustomExtension(String name);
     public void updateFixedExtension(String name, String status);

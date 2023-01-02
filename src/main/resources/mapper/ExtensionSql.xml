@@ -8,6 +8,9 @@
     <select id="selectFixedExtension" resultType="ExtensionDto">
         SELECT * FROM extension WHERE type='fixed';
     </select>
+    <select id="selectExtensionCount" resultType="int">
+        SELECT count(seq) FROM extension where status=1;
+    </select>
     <insert id="insertCustomExtension" parameterType="ExtensionDto">
         INSERT INTO extension VALUES (null,#{name},'custom',1);
     </insert>

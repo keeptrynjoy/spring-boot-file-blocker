@@ -6,8 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/")
@@ -29,9 +32,13 @@ public class FileBlockerController {
 
     /* 커스텀 확장자 차단 추가 */
     @PostMapping("/block/custom")
-    public ResponseEntity insertCustomExtension(@RequestBody @Validated ExtensionDto extensionDto) {
+    public ResponseEntity insertCustomExtension(@RequestBody @Valid ExtensionDto extensionDto) {
+        int totalBlockExtn =extensionService.selectExtensionCount();
 
-            extensionService.insertCustomExtension(extensionDto);
+        if(totalBlockExtn == 200){
+            return ResponseEntity.badRequest().body("확장자는 최대 200개까지만 차단이 가능합니다.");
+        }
+        extensionService.insertCustomExtension(extensionDto);
 
         return ResponseEntity.ok().body("\'"+extensionDto.getName()+"\'"+" 커스텀 확장자 추가 및 차단이 완료되있습니다.");
     }
@@ -40,6 +47,7 @@ public class FileBlockerController {
     @PutMapping("/{status}/fixed/{name}")
     public ResponseEntity updateFixedExtension(@PathVariable(name = "name") String name,
                                                @PathVariable(name = "status") String status){
+
         extensionService.updateFixedExtension(name,status);
 
         return ResponseEntity.ok().body("고정 확장자 요청 처리 완료");

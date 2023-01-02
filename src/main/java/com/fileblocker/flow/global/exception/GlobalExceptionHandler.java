@@ -27,7 +27,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(error);
     }
 
-    /* valid 유효성 검사 실패 */
+    /* valid 유효성 검사 실패시 */
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request){
@@ -37,4 +37,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return ResponseEntity.badRequest().headers(headers).body(error);
     }
+
+
+
 }

@@ -12,7 +12,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <title>FileBlocker</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         ul {
@@ -77,8 +77,7 @@
                 </span>
                 <div class="bot">
                     <div>
-                        <input type="text" oninput="handleOnInput(this, 20)" placeholder="확장자 입력"
-                            id="inputExtn">
+                        <input type="text" placeholder="확장자 입력" id="inputExtn" oninput="handleOnInput(this, 20)">
                         &nbsp;
                         <button type="button" onclick="blkCustom()">+추가</button>
                     </div>
